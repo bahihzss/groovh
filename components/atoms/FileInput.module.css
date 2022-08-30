@@ -1,0 +1,11 @@
+.FileInput {
+  @apply p-3;
+  @apply border border-solid border-gray-500 rounded;
+  @apply cursor-pointer;
+  @apply transition-colors;
+
+  &-dragActive {
+    @apply bg-gray-500;
+    @apply text-white;
+  }
+}
