@@ -9,11 +9,8 @@ const meta: Meta<FileInputProps> = {
 export default meta
 
 const Template: Story<FileInputProps> = () => (
-  <div className="grid gap-3">
+  <div className="fixed inset-0 p-5">
     <FileInput onChange={action('change')}/>
-    <FileInput onChange={action('change')}>
-      他のテキストも入れられる
-    </FileInput>
   </div>
 )
 
