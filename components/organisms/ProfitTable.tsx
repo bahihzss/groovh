@@ -13,8 +13,8 @@ export const ProfitTable: React.FC<ProfitTableProps> = ({brandPerformances}) => 
   return <table className={styles.ProfitTable}>
     <thead>
     <tr>
-      <th>Yahoo売上</th>
-      <th>手数料込み金額（税込）</th>
+      <th>入金額</th>
+      <th>入金額（税込）</th>
     </tr>
     </thead>
     <tbody>

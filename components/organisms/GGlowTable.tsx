@@ -8,7 +8,7 @@ export interface GGlowTableProps {
 
 export const GGlowTable: React.FC<GGlowTableProps> = ({brandPerformance}) => {
   return <div className={styles.GGlowTable}>
-    <h2>{brandPerformance.brand.name}</h2>
+    <h3>{brandPerformance.brand.name}</h3>
     <table>
       <thead>
       <tr>

@@ -1,5 +1,7 @@
 .GGlowTable {
-  h2 {
+  @apply min-w-[380px];
+
+  h3 {
     @apply font-bold text-2xl mb-3;
   }
 
