@@ -1,0 +1,15 @@
+.Alert {
+  @apply min-w-[33%] w-fit;
+  @apply divide-y divide-red-600;
+  @apply bg-red-700 text-gray-100;
+  @apply shadow;
+
+  &_title {
+    @apply p-3;
+    @apply font-bold;
+  }
+
+  &_content {
+    @apply p-3;
+  }
+}

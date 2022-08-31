@@ -1,0 +1,7 @@
+.DataSourceInput {
+  &_errorArea {
+    @apply fixed inset-0;
+    @apply flex flex-col py-10 gap-5 items-center;
+    @apply bg-black bg-opacity-60 overflow-y-auto;
+  }
+}
