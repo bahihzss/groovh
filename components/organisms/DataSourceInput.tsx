@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import {FileInput} from '../atoms/FileInput'
-import {useCsv} from '../../hooks/csv'
-import {useSourceType} from '../../hooks/source-type'
+import {file2csv} from '../../hooks/csv'
 import {Alert} from '../atoms/Alert'
 import styles from './DataSourceInput.module.css'
 import {Billing} from '../../entities/billing'
@@ -11,6 +10,7 @@ import {AdPerformance} from '../../entities/ad-performance'
 import {Company} from '../../entities/company'
 import {Brand} from '../../entities/brand'
 import {Product} from '../../entities/product'
+import {getSourceType} from '../../hooks/source-type'
 
 export interface BrandPerformanceDto {
   brand: Brand
@@ -58,9 +58,9 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
     const _errorMessages: string[] = []
     for (const file of files) {
       try {
-        const {parse} = useCsv(file)
+        const {parse} = file2csv(file)
         const {fileName, header, data} = await parse()
-        const sourceType = useSourceType(fileName, header)
+        const sourceType = getSourceType(fileName, header)
 
         switch (sourceType) {
           case 'BILLING':

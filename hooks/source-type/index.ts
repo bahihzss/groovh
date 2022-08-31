@@ -36,7 +36,7 @@ class HeaderAndSourceTypeMisMatchError extends Error {
   }
 }
 
-export const useSourceType = (fileName: string, header: string[]) => {
+export const getSourceType = (fileName: string, header: string[]) => {
   const sourceType = detect(fileName)
 
   if (sourceType === null) {

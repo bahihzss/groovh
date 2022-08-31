@@ -22,7 +22,7 @@ export const TemplateSummaryView: React.FC<TemplateSummaryViewProps> = ({brandPe
     <div className="w-full flex gap-5 overflow-auto">
       {
         brandPerformances.map((brandPerformance) => (
-          <GGlowTable brandPerformance={brandPerformance}/>
+          <GGlowTable key={brandPerformance.brand.id} brandPerformance={brandPerformance}/>
         ))
       }
     </div>
@@ -30,7 +30,7 @@ export const TemplateSummaryView: React.FC<TemplateSummaryViewProps> = ({brandPe
     <div className="max-w-full flex gap-5 overflow-auto">
       {
         companyPerformances.map((companyPerformance) => (
-          <GGlowTableForCompany companyPerformance={companyPerformance}/>
+          <GGlowTableForCompany key={companyPerformance.company.id} companyPerformance={companyPerformance}/>
         ))
       }
     </div>

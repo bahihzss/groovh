@@ -12,7 +12,7 @@ export interface FileInputProps {
 export const FileInput: React.FC<FileInputProps> = ({children, onChange}) => {
   const handleDropFiles = useCallback((files: File[]) => {
     onChange(files)
-  }, [])
+  }, [onChange])
 
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop: handleDropFiles})
 

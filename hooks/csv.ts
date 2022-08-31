@@ -27,7 +27,7 @@ interface ParseResult {
   data: ParseData[]
 }
 
-export const useCsv = (file: File) => {
+export const file2csv = (file: File) => {
   if (file.type !== 'text/csv') {
     throw new NonCsvError(file)
   }
