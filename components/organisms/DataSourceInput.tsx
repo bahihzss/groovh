@@ -14,11 +14,12 @@ import {Product} from '../../entities/product'
 
 export interface BrandPerformanceDto {
   brand: Brand
-  grossReceipt: number
+  company: Company
+  gGlowReceipt: number
   adCost: number
   receipt: number
   receiptHandle: number
-  grossBilling: number
+  gGlowBilling: number
   billing: number
   billingHandle: number
   profit: number
@@ -117,23 +118,24 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
 
       const adCost = adPerformances.reduce((sub, {price}) => sub + price, 0)
 
-      const grossReceipt = receipts.reduce((sub, {price}) => sub + price, 0)
-      const receipt = Math.floor(grossReceipt * company.receiptHandleRate)
-      const receiptHandle = grossReceipt - receipt
+      const gGlowReceipt = receipts.reduce((sub, {price}) => sub + price, 0)
+      const receipt = Math.floor(gGlowReceipt * company.receiptHandleRate)
+      const receiptHandle = gGlowReceipt - receipt
 
-      const grossBilling = billings.reduce((sub, {price}) => sub + price, 0)
-      const billing = Math.floor(grossBilling * company.billingHandleRate)
-      const billingHandle = grossBilling - billing
+      const gGlowBilling = billings.reduce((sub, {price}) => sub + price, 0)
+      const billing = Math.floor(gGlowBilling * company.billingHandleRate)
+      const billingHandle = billing - gGlowBilling
 
       const profit = receipt - billing
 
       return {
         brand,
+        company,
         adCost,
-        grossReceipt,
+        gGlowReceipt,
         receipt,
         receiptHandle,
-        grossBilling,
+        gGlowBilling,
         billing,
         billingHandle,
         profit,
@@ -162,6 +164,7 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
     })
 
     onDrop({companyPerformances, brandPerformances})
+    console.log({companyPerformances, brandPerformances})
   }
 
   return (
