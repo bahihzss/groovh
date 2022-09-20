@@ -8,10 +8,10 @@ export interface SalesTableProps {
 }
 
 export const SalesTable: React.FC<SalesTableProps> = ({brandPerformances}) => {
-  const totalgGlowReceipt = brandPerformances.reduce((sub, {gGlowReceipt}) => sub + gGlowReceipt, 0)
+  const totalGGlowReceipt = brandPerformances.reduce((sub, {gGlowReceipt}) => sub + gGlowReceipt, 0)
   const brandPerformancesWithRate = brandPerformances.map((brandPerformance) => ({
     ...brandPerformance,
-    rate: brandPerformance.gGlowReceipt / totalgGlowReceipt
+    rate: brandPerformance.gGlowReceipt / totalGGlowReceipt
   }))
 
   return <table className={styles.SalesTable}>
@@ -25,7 +25,7 @@ export const SalesTable: React.FC<SalesTableProps> = ({brandPerformances}) => {
     <tbody>
     <tr>
       <td>全体</td>
-      <td>&yen;{totalgGlowReceipt.toLocaleString()}</td>
+      <td>&yen;{totalGGlowReceipt.toLocaleString()}</td>
       <td>100%</td>
     </tr>
     {

@@ -97,6 +97,7 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
 
       let orders: Order[] = []
       let adPerformances: AdPerformance[] = []
+
       for (const product of products) {
         const ordersForProducts = resources.ORDER.filter((order) => order.productId === product.id)
         orders = [...orders, ...ordersForProducts]
@@ -105,15 +106,30 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
         adPerformances = [...adPerformances, ...adPerformancesOfProduct]
       }
 
+      if (brand.id === 'others') {
+        const nonBrandOrders = resources.ORDER.filter((order) => resources.PRODUCT.every((product) => product.id !== order.productId))
+        orders = [...orders, ...nonBrandOrders]
+      }
+
+      const uniqueOrderIdList = [...new Set(orders.map(({id}) => id))]
+
       let receipts: Receipt[] = []
       let billings: Billing[] = []
 
-      for (const order of orders) {
-        const receiptsForOrder = resources.RECEIPT.filter((receipt) => receipt.orderId === order.id)
+      for (const orderId of uniqueOrderIdList) {
+        const receiptsForOrder = resources.RECEIPT.filter((receipt) => receipt.orderId === orderId)
         receipts = [...receipts, ...receiptsForOrder]
 
-        const billingsForOrder = resources.BILLING.filter((billing) => billing.orderId === order.id)
+        const billingsForOrder = resources.BILLING.filter((billing) => billing.orderId === orderId)
         billings = [...billings, ...billingsForOrder]
+      }
+
+      if (brand.id === 'others') {
+        const nonOrderReceipts = resources.RECEIPT.filter((receipt) => resources.ORDER.every((order) => order.id !== receipt.orderId))
+        receipts = [...receipts, ...nonOrderReceipts]
+
+        const nonOrderBillings = resources.BILLING.filter((billing) => resources.ORDER.every((order) => order.id !== billing.orderId))
+        billings = [...billings, ...nonOrderBillings]
       }
 
       const adCost = adPerformances.reduce((sub, {price}) => sub + price, 0)
@@ -164,7 +180,6 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
     })
 
     onDrop({companyPerformances, brandPerformances})
-    console.log({companyPerformances, brandPerformances})
   }
 
   return (
