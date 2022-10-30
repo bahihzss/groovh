@@ -5,12 +5,12 @@ export class Billing {
   ) {
   }
 
-  static fromCsvRow(row: string[]) {
+  static fromSourceRow(row: string[]) {
     const [_date, orderId, _title, _note, _priceWithoutTax, _tax, price] = row
 
     return new Billing(
       orderId.replace('az-market-', ''),
-      parseInt(price)
+      parseInt(price),
     )
   }
 }

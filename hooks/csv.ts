@@ -3,7 +3,7 @@ import Encoding from 'encoding-japanese'
 
 export class NonCsvError extends Error {
   constructor(
-    readonly file: File
+    readonly file: File,
   ) {
     super(`${file.name} は CSV ではありません。`)
     this.name = 'NonCsvError'
@@ -12,7 +12,7 @@ export class NonCsvError extends Error {
 
 export class FailedToDetectEncodingError extends Error {
   constructor(
-    readonly file: File
+    readonly file: File,
   ) {
     super(`${file.name} の文字コードを認識できませんでした。`)
     this.name = 'FailedToDetectEncodingError'
@@ -27,7 +27,7 @@ interface ParseResult {
   data: ParseData[]
 }
 
-export const file2csv = (file: File) => {
+export const csv2array = (file: File) => {
   if (file.type !== 'text/csv') {
     throw new NonCsvError(file)
   }
@@ -43,7 +43,7 @@ export const file2csv = (file: File) => {
     const unicodeString = Encoding.convert(codes, {
       type: 'string',
       from: encoding,
-      to: 'UNICODE'
+      to: 'UNICODE',
     })
 
     Papa.parse<ParseData>(unicodeString, {
@@ -56,7 +56,7 @@ export const file2csv = (file: File) => {
           header,
           data: filteredData,
         })
-      }
+      },
     })
   })
 

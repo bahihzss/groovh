@@ -5,7 +5,7 @@ export class AdPerformance {
   ) {
   }
 
-  static fromCsvRow(row: string[]) {
+  static fromSourceRow(row: string[]) {
     const [
       _store,
       _category,
@@ -20,7 +20,7 @@ export class AdPerformance {
 
     return new AdPerformance(
       productCode.replace(/^az-market_/, ''),
-      parseInt(price)
+      parseInt(price),
     )
   }
 }

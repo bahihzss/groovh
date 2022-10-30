@@ -8,7 +8,7 @@ const meta: Meta<GGlowTableProps> = {
 
 export default meta
 
-const Template: Story<GGlowTableProps> = () => <GGlowTable brandPerformance={performances.brandPerformances[1]}/>
+const Template: Story<GGlowTableProps> = () => <GGlowTable brandPerformances={performances.brandPerformances}/>
 
 export const Default = Template.bind({})
 Default.args = {}

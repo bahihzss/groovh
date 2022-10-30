@@ -1,21 +1,21 @@
 export class Order {
   constructor(
     readonly id: string,
-    readonly productId: string,
+    readonly productIds: string[],
   ) {
   }
 
-  static fromCsvRow(row: string[]) {
+  static fromSourceRow(row: string[]) {
     const [
       orderId,
       _lineId,
       _quantity,
-      productCode
+      productCode,
     ] = row
 
     return new Order(
       orderId,
-      productCode,
+      [productCode],
     )
   }
 }
