@@ -24,9 +24,9 @@ const Home: NextPage = () => {
   const [multiBrandOrders, setMultiBrandOrders] = useState<Order[]>([])
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
-  const handleDrop = useCallback(async (files: File[]) => {
-    const {store, addFromCsv} = useStore()
+  const {store, addFromCsv} = useStore()
 
+  const handleDrop = useCallback(async (files: File[]) => {
     const _errorMessages: string[] = []
     for (const file of files) {
       try {
