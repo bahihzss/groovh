@@ -1,3 +1,5 @@
+import {ShopType} from '../../hooks/source-type'
+
 export class Brand {
   constructor(
     readonly id: string,
@@ -6,7 +8,7 @@ export class Brand {
   ) {
   }
 
-  static fromSourceRow(row: string[]) {
+  static fromSourceRow(shopType: ShopType, row: string[]) {
     const [
       id,
       name,

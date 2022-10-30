@@ -1,17 +1,22 @@
 import {headers} from './headers'
 import {fileNamePatterns} from './file-name-patterns'
 
+export type ShopType = 'YAHOO' | 'RAKUTEN'
 export type SourceType = 'BILLING' | 'RECEIPT' | 'ORDER' | 'AD_PERFORMANCE' | 'COMPANY' | 'BRAND' | 'PRODUCT'
 
 
 const detect = (fileName: string) => {
-  const [sourceType] = Object.entries(fileNamePatterns).find(([_, pattern]) => pattern.test(fileName)) ?? [null]
-  return sourceType as SourceType | null
+  const [sourceType, shopType] = fileNamePatterns.find(([_so, _sh, pattern]) => pattern.test(fileName)) ?? [null, null]
+  return [sourceType, shopType] as const
 }
 
-const validate = (header: string[], sourceType: SourceType) => {
-  const validHeader = headers[sourceType]
-  return JSON.stringify(header) === JSON.stringify(validHeader)
+export const validateSourceType = (header: string[], sourceType: SourceType, shopType: ShopType, fileName: string) => {
+  const validHeader = headers[shopType][sourceType]
+  const isValid = JSON.stringify(header) === JSON.stringify(validHeader)
+
+  if (!isValid) {
+    throw new HeaderAndSourceTypeMisMatchError(fileName, header, sourceType, shopType)
+  }
 }
 
 class UndefinedSourceError extends Error {
@@ -25,26 +30,25 @@ class UndefinedSourceError extends Error {
 }
 
 class HeaderAndSourceTypeMisMatchError extends Error {
-  constructor(fileName: string, header: string[], sourceType: SourceType) {
+  constructor(fileName: string, header: string[], sourceType: SourceType, shopType: ShopType) {
     const message = `ヘッダーとソースタイプが一致しません。
 ファイル名：${fileName}
+ショップタイプ：${shopType}
 ソースタイプ：${sourceType}
-ヘッダー：${header.join(', ')}`
+与えられたヘッダー：${header.join(', ')}
+期待されるヘッダー：${headers[shopType][sourceType]?.join(', ')}`
 
     super(message)
     this.name = 'HeaderAndSourceTypeMisMatchError'
   }
 }
 
-export const detectSourceType = (fileName: string, header: string[]) => {
-  const sourceType = detect(fileName)
+export const detectSourceType = (fileName: string) => {
+  const [sourceType, shopType] = detect(fileName)
 
-  if (sourceType === null) {
+  if (sourceType === null || shopType === null) {
     throw new UndefinedSourceError(fileName)
   }
-  if (!validate(header, sourceType)) {
-    throw new HeaderAndSourceTypeMisMatchError(fileName, header, sourceType)
-  }
 
-  return sourceType
+  return [sourceType, shopType] as const
 }
