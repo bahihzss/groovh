@@ -1,10 +1,11 @@
 import React from 'react'
-import {BrandPerformanceDto, CompanyPerformanceDto} from '../organisms/DataSourceInput'
 import {SalesTable} from '../organisms/SalesTable'
 import {ProfitTable} from '../organisms/ProfitTable'
 import {HandleFeeTable} from '../organisms/HandleFeeTable'
 import {GGlowTable} from '../organisms/GGlowTable'
 import {GGlowTableForCompany} from '../organisms/GGlowTableForCompany'
+import {CompanyPerformanceDto} from '../../use-case/calc-company-performances-use-case'
+import {BrandPerformanceDto} from '../../use-case/calc-brand-performance-use-case'
 
 export interface TemplateSummaryViewProps {
   companyPerformances: CompanyPerformanceDto[],

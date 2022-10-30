@@ -5,12 +5,12 @@ export class Order {
   ) {
   }
 
-  static fromCsvRow(row: string[]) {
+  static fromSourceRow(row: string[]) {
     const [
       orderId,
       _lineId,
       _quantity,
-      productCode
+      productCode,
     ] = row
 
     return new Order(

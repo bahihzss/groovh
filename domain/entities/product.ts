@@ -5,7 +5,7 @@ export class Product {
   ) {
   }
 
-  static fromCsvRow(row: string[]) {
+  static fromSourceRow(row: string[]) {
     const [
       id,
       brandId,

@@ -7,7 +7,7 @@ export class Company {
   ) {
   }
 
-  static fromCsvRow(row: string[]) {
+  static fromSourceRow(row: string[]) {
     const [
       id,
       name,

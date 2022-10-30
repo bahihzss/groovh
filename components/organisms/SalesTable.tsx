@@ -1,6 +1,7 @@
 import React from 'react'
-import {BrandPerformanceDto} from './DataSourceInput'
 import styles from './SalesTable.module.css'
+import {BrandPerformanceDto} from '../../use-case/calc-brand-performance-use-case'
+import {sum} from '../../utils/aggregation'
 
 
 export interface SalesTableProps {
@@ -8,10 +9,10 @@ export interface SalesTableProps {
 }
 
 export const SalesTable: React.FC<SalesTableProps> = ({brandPerformances}) => {
-  const totalGGlowReceipt = brandPerformances.reduce((sub, {gGlowReceipt}) => sub + gGlowReceipt, 0)
+  const totalGGlowReceipt = sum(brandPerformances, 'gGlowReceipt')
   const brandPerformancesWithRate = brandPerformances.map((brandPerformance) => ({
     ...brandPerformance,
-    rate: brandPerformance.gGlowReceipt / totalGGlowReceipt
+    rate: brandPerformance.gGlowReceipt / totalGGlowReceipt,
   }))
 
   return <table className={styles.SalesTable}>
