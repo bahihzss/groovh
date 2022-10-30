@@ -1,14 +1,63 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import {DataSourceInput, OnDropPayload} from '../components/organisms/DataSourceInput'
+import {DataSourceInput} from '../components/organisms/DataSourceInput'
 import {useCallback, useState} from 'react'
 import {TemplateSummaryView} from '../components/templates/TemplateSummaryView'
+import {useStore} from '../hooks/store'
+import {CompanyRepository} from '../infrastructure/repositories/company-repository'
+import {BrandRepository} from '../infrastructure/repositories/brand-repository'
+import {ReceiptRepository} from '../infrastructure/repositories/receipt-repository'
+import {BillingRepository} from '../infrastructure/repositories/billing-repository'
+import {AdPerformanceRepository} from '../infrastructure/repositories/ad-performance-repository'
+import {BrandPerformanceDto, CalcBrandPerformanceUseCase} from '../use-case/calc-brand-performance-use-case'
+import {CalcCompanyPerformancesUseCase, CompanyPerformanceDto} from '../use-case/calc-company-performances-use-case'
+
+interface Performances {
+  brandPerformances: BrandPerformanceDto[],
+  companyPerformances: CompanyPerformanceDto[]
+}
 
 const Home: NextPage = () => {
-  const [performances, setPerformances] = useState<null | OnDropPayload>(null)
+  const [performances, setPerformances] = useState<null | Performances>(null)
+  const [errorMessages, setErrorMessages] = useState<string[]>([])
 
-  const handleDrop = useCallback((payload: OnDropPayload) => {
-    setPerformances(payload)
+  const handleDrop = useCallback(async (files: File[]) => {
+    const {store, addFromCsv} = useStore()
+
+    const _errorMessages: string[] = []
+    for (const file of files) {
+      try {
+        await addFromCsv(file)
+      } catch (e) {
+        if (e instanceof Error) _errorMessages.push(e.message)
+      }
+    }
+    setErrorMessages(_errorMessages)
+
+    const companyRepository = new CompanyRepository(store)
+    const brandRepository = new BrandRepository(store)
+    const receiptRepository = new ReceiptRepository(store)
+    const billingRepository = new BillingRepository(store)
+    const adPerformanceRepository = new AdPerformanceRepository(store)
+
+    const calcBrandPerformanceUseCase = new CalcBrandPerformanceUseCase(
+      companyRepository,
+      receiptRepository,
+      billingRepository,
+      adPerformanceRepository,
+    )
+    const brands = brandRepository.list()
+    const brandPerformances = brands.map((brand) =>
+      calcBrandPerformanceUseCase.exec(brand),
+    )
+
+    const calcCompanyPerformanceUseCase = new CalcCompanyPerformancesUseCase(brandRepository)
+    const companies = companyRepository.list()
+    const companyPerformances: CompanyPerformanceDto[] = companies.map((brand) =>
+      calcCompanyPerformanceUseCase.execute(brand, brandPerformances),
+    )
+
+    setPerformances({companyPerformances, brandPerformances})
   }, [])
 
   return (
@@ -21,7 +70,7 @@ const Home: NextPage = () => {
       {
         performances === null ? (
           <div className="fixed inset-0 p-5">
-            <DataSourceInput onDrop={handleDrop}/>
+            <DataSourceInput onDrop={handleDrop} errorMessages={errorMessages}/>
           </div>
         ) : (
           <TemplateSummaryView

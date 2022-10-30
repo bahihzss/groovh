@@ -9,6 +9,6 @@ export class BrandRepository {
   }
 
   listByCompanyId(companyId: string) {
-    return this.store.COMPANY.filter((company) => company.id === companyId)
+    return this.store.BRAND.filter((brand) => brand.companyId === companyId)
   }
 }

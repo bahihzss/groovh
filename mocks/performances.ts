@@ -1,6 +1,4 @@
-import {OnDropPayload} from '../components/organisms/DataSourceInput'
-
-export const performances: OnDropPayload = {
+export const performances = {
   'companyPerformances': [
     {
       'company': {
@@ -11,7 +9,7 @@ export const performances: OnDropPayload = {
       },
       'adCost': 120756,
       'receipt': 5103638,
-      'billing': 949050
+      'billing': 949050,
     },
     {
       'company': {
@@ -22,8 +20,8 @@ export const performances: OnDropPayload = {
       },
       'adCost': 27391,
       'receipt': 6731210,
-      'billing': 1055117
-    }
+      'billing': 1055117,
+    },
   ],
   'brandPerformances': [
     {
@@ -45,7 +43,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 0,
       'billing': 0,
       'billingHandle': 0,
-      'profit': 0
+      'profit': 0,
     },
     {
       'brand': {
@@ -66,7 +64,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 1004874,
       'billing': 1055117,
       'billingHandle': 50243,
-      'profit': 5676093
+      'profit': 5676093,
     },
     {
       'brand': {
@@ -87,7 +85,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 264215,
       'billing': 272141,
       'billingHandle': 7926,
-      'profit': 1261692
+      'profit': 1261692,
     },
     {
       'brand': {
@@ -108,7 +106,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 68131,
       'billing': 70174,
       'billingHandle': 2043,
-      'profit': 379401
+      'profit': 379401,
     },
     {
       'brand': {
@@ -129,7 +127,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 5262,
       'billing': 5419,
       'billingHandle': 157,
-      'profit': 31906
+      'profit': 31906,
     },
     {
       'brand': {
@@ -150,7 +148,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 579089,
       'billing': 596461,
       'billingHandle': 17372,
-      'profit': 2462437
+      'profit': 2462437,
     },
     {
       'brand': {
@@ -171,7 +169,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 0,
       'billing': 0,
       'billingHandle': 0,
-      'profit': 0
+      'profit': 0,
     },
     {
       'brand': {
@@ -192,7 +190,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 4714,
       'billing': 4855,
       'billingHandle': 141,
-      'profit': 19152
+      'profit': 19152,
     },
     {
       'brand': {
@@ -213,7 +211,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 0,
       'billing': 0,
       'billingHandle': 0,
-      'profit': 0
+      'profit': 0,
     },
     {
       'brand': {
@@ -234,7 +232,7 @@ export const performances: OnDropPayload = {
       'gGlowBilling': 0,
       'billing': 0,
       'billingHandle': 0,
-      'profit': 0
-    }
-  ]
+      'profit': 0,
+    },
+  ],
 }

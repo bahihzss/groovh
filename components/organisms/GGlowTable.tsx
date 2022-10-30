@@ -1,85 +1,76 @@
 import React from 'react'
-import {BrandPerformanceDto} from './DataSourceInput'
-import styles from './GGlowTable.module.css'
+import {BrandPerformanceDto} from '../../use-case/calc-brand-performance-use-case'
+import {formatPercent, formatStraight, formatYen, useMatrix} from '../../hooks/matrix'
+import Spreadsheet from 'react-spreadsheet'
 
 export interface GGlowTableProps {
-  brandPerformance: BrandPerformanceDto;
+  brandPerformances: BrandPerformanceDto[];
 }
 
-export const GGlowTable: React.FC<GGlowTableProps> = ({brandPerformance}) => {
-  return <div className={styles.GGlowTable}>
-    <h3>{brandPerformance.brand.name}</h3>
-    <table>
-      <thead>
-      <tr>
-        <th>売上総額の{brandPerformance.company.receiptHandleRate * 100}%</th>
-        <th>売上総額の{brandPerformance.company.receiptHandleRate * 100}%</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>{brandPerformance.brand.name}へ支払う売上</td>
-        <td>¥{brandPerformance.receipt.toLocaleString()}</td>
-      </tr>
-      <tr>
-        <td>G-GLOW取り分</td>
-        <td>¥{brandPerformance.receiptHandle.toLocaleString()}</td>
-      </tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-      <tr>
-        <th>販売手数料の{brandPerformance.company.billingHandleRate * 100}%</th>
-        <th>販売手数料の{brandPerformance.company.billingHandleRate * 100}%</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>G-GLOWへ支払う手数料</td>
-        <td>¥{brandPerformance.billing.toLocaleString()}</td>
-      </tr>
-      <tr>
-        <td>G-GLOW取り分</td>
-        <td>¥{brandPerformance.billingHandle.toLocaleString()}</td>
-      </tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-      <tr>
-        <th>広告費</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>アイテムマッチ</td>
-        <td>¥{brandPerformance.adCost.toLocaleString()}</td>
-      </tr>
-      </tbody>
-    </table>
-    <table>
-      <thead>
-      <tr>
-        <th>総合計</th>
-        <th>金額</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>{brandPerformance.brand.name}へ支払われる金額</td>
-        <td>¥{brandPerformance.receipt.toLocaleString()}</td>
-      </tr>
-      <tr>
-        <td>G-GLOWへ支払われる手数料</td>
-        <td>¥{brandPerformance.billing.toLocaleString()}</td>
-      </tr>
-      <tr>
-        <td>G-GLOWへ支払われる広告費</td>
-        <td>¥{brandPerformance.adCost.toLocaleString()}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+interface GGlowHandleDto {
+  brandName: string
+  billingHandleRate: number
+  billingFromBrand: number
+  billingForGGlow: number
+  receiptHandleRate: number
+  receiptForBrand: number
+  receiptForGGlow: number
+  adCost: number
+}
+
+export const GGlowTable: React.FC<GGlowTableProps> = ({brandPerformances}) => {
+  const gGlowHandles: GGlowHandleDto[] = brandPerformances.map((performance) => {
+    const {billingHandleRate, receiptHandleRate} = performance.company
+    const billingFromBrand = performance.billing * billingHandleRate
+    const receiptForBrand = performance.receipt * receiptHandleRate
+
+    return {
+      brandName: performance.brand.name,
+      billingHandleRate: billingHandleRate - 1,
+      billingFromBrand,
+      billingForGGlow: billingFromBrand - performance.billing,
+      receiptHandleRate: 1 - receiptHandleRate,
+      receiptForBrand,
+      receiptForGGlow: performance.receipt - receiptForBrand,
+      adCost: performance.adCost,
+    }
+  })
+
+  const matrix = useMatrix(gGlowHandles, {
+    brandName: {
+      label: 'ブランド',
+      format: formatStraight,
+    },
+    receiptHandleRate: {
+      label: '売上:G-GLOW手数料率',
+      format: formatPercent,
+    },
+    receiptForBrand: {
+      label: '売上:ブランド受取分',
+      format: formatYen,
+    },
+    receiptForGGlow: {
+      label: '売上:G-GLOW取分',
+      format: formatYen,
+    },
+    billingHandleRate: {
+      label: '販売手数料:G-GLOW手数料率',
+      format: formatPercent,
+    },
+    billingFromBrand: {
+      label: '販売手数料:ブランド支払分',
+      format: formatYen,
+    },
+    billingForGGlow: {
+      label: '販売手数料:G-GLOW取分',
+      format: formatYen,
+    },
+    adCost: {
+      label: '広告費',
+      format: formatYen,
+    },
+  })
+
+  return (<Spreadsheet data={matrix}/>)
+
 }

@@ -1,43 +1,78 @@
 import React from 'react'
-import styles from './SalesTable.module.css'
 import {BrandPerformanceDto} from '../../use-case/calc-brand-performance-use-case'
 import {sum} from '../../utils/collection'
+import {formatPercent, formatStraight, formatYen, useMatrix} from '../../hooks/matrix'
+import Spreadsheet from 'react-spreadsheet'
 
 
 export interface SalesTableProps {
   brandPerformances: BrandPerformanceDto[]
 }
 
-export const SalesTable: React.FC<SalesTableProps> = ({brandPerformances}) => {
-  const totalGGlowReceipt = sum(brandPerformances, 'gGlowReceipt')
-  const brandPerformancesWithRate = brandPerformances.map((brandPerformance) => ({
-    ...brandPerformance,
-    rate: brandPerformance.gGlowReceipt / totalGGlowReceipt,
-  }))
+interface SalesSummary {
+  brandName: string
+  sales: number
+  salesRate: number
+  profit: number
+  handleFee: number
+  handleFeeRate: number
+}
 
-  return <table className={styles.SalesTable}>
-    <thead>
-    <tr>
-      <th>Yahoo売上</th>
-      <th>手数料込み金額（税込）</th>
-      <th>比率</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>全体</td>
-      <td>&yen;{totalGGlowReceipt.toLocaleString()}</td>
-      <td>100%</td>
-    </tr>
-    {
-      brandPerformancesWithRate.map((performance) => (
-        <tr key={performance.brand.id}>
-          <td>{performance.brand.name}</td>
-          <td>&yen;{performance.gGlowReceipt.toLocaleString()}</td>
-          <td>{(performance.rate * 100).toLocaleString()}%</td>
-        </tr>
-      ))
+export const SalesTable: React.FC<SalesTableProps> = ({brandPerformances}) => {
+  const totalSales = sum(brandPerformances, 'gGlowReceipt')
+  const totalHandleFee = sum(brandPerformances, 'gGlowBilling')
+  const totalProfit = totalSales - totalHandleFee
+
+  const total: SalesSummary = {
+    brandName: '合計',
+    sales: totalSales,
+    salesRate: 1,
+    profit: totalProfit,
+    handleFee: totalHandleFee,
+    handleFeeRate: 1,
+  }
+
+  const salesSummaries: SalesSummary[] = brandPerformances.map((brandPerformance) => {
+    const sales = brandPerformance.gGlowReceipt
+    const handleFee = brandPerformance.gGlowBilling
+    const profit = sales - handleFee
+
+    return {
+      brandName: brandPerformance.brand.name,
+      sales,
+      salesRate: sales / totalSales,
+      profit,
+      handleFee,
+      handleFeeRate: handleFee / totalHandleFee,
     }
-    </tbody>
-  </table>
+  })
+
+  const matrix = useMatrix([total, ...salesSummaries], {
+    brandName: {
+      label: 'ブランド',
+      format: formatStraight,
+    },
+    sales: {
+      label: '売上',
+      format: formatYen,
+    },
+    salesRate: {
+      label: '売上の割合',
+      format: formatPercent,
+    },
+    profit: {
+      label: '入金額',
+      format: formatYen,
+    },
+    handleFee: {
+      label: '販売手数料',
+      format: formatYen,
+    },
+    handleFeeRate: {
+      label: '販売手数料の割合',
+      format: formatPercent,
+    },
+  })
+
+  return (<Spreadsheet data={matrix}/>)
 }

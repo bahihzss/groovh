@@ -9,7 +9,7 @@ const meta: Meta = {
 export default meta
 
 const Template: Story = () => <div className="fixed inset-0 p-5">
-  <DataSourceInput onDrop={action('drop')}/>
+  <DataSourceInput onDrop={action('drop')} errorMessages={[]}/>
 </div>
 
 export const Default = Template.bind({})

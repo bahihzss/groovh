@@ -11,16 +11,15 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@handsontable/react": "^12.2.0",
     "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
     "@types/papaparse": "^5.3.4",
-    "handsontable": "^12.2.0",
     "next": "12.2.5",
     "papaparse": "^5.3.2",
     "postcss-nested": "^5.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.2",
+    "react-spreadsheet": "^0.7.7",
     "vite": "^3.0.8"
   },
   "devDependencies": {
