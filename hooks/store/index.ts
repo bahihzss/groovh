@@ -7,7 +7,6 @@ import {Company} from '../../domain/entities/company'
 import {Brand} from '../../domain/entities/brand'
 import {Product} from '../../domain/entities/product'
 import {csv2array} from '../csv'
-import {useState} from 'react'
 
 export interface Store {
   BILLING: Billing[],
@@ -36,7 +35,7 @@ const models: Record<SourceType, Model> = {
 }
 
 export const useStore = () => {
-  const [store, setStore] = useState<Store>({
+  const store: Store = {
     BILLING: [],
     RECEIPT: [],
     ORDER: [],
@@ -44,19 +43,16 @@ export const useStore = () => {
     COMPANY: [],
     BRAND: [],
     PRODUCT: [],
-  })
+  }
 
   const addFromCsv = async (file: File) => {
     const {fileName, header, data} = await csv2array(file).parse()
     const sourceType = detectSourceType(fileName, header)
 
-    setStore({
-      ...store,
-      [sourceType]: [
-        ...store[sourceType],
-        ...data.map((row) => models[sourceType].fromSourceRow(row)),
-      ],
-    })
+    store[sourceType] = [
+      ...store[sourceType],
+      ...data.map((row) => models[sourceType].fromSourceRow(row)),
+    ]
   }
 
   return {store, addFromCsv}
