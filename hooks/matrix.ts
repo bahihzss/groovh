@@ -26,7 +26,7 @@ export const useMatrix = <T>(
 
     const header = entries.map(([_, {label}]) => ({
       value: label,
-      readonly: true,
+      className: 'text-black',
     }))
     const data: { value: string }[][] = [header]
 

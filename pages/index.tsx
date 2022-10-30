@@ -11,6 +11,8 @@ import {BillingRepository} from '../infrastructure/repositories/billing-reposito
 import {AdPerformanceRepository} from '../infrastructure/repositories/ad-performance-repository'
 import {BrandPerformanceDto, CalcBrandPerformanceUseCase} from '../use-case/calc-brand-performance-use-case'
 import {CalcCompanyPerformancesUseCase, CompanyPerformanceDto} from '../use-case/calc-company-performances-use-case'
+import {Order} from '../domain/entities/order'
+import {OrderRepository} from '../infrastructure/repositories/order-repository'
 
 interface Performances {
   brandPerformances: BrandPerformanceDto[],
@@ -19,6 +21,7 @@ interface Performances {
 
 const Home: NextPage = () => {
   const [performances, setPerformances] = useState<null | Performances>(null)
+  const [multiBrandOrders, setMultiBrandOrders] = useState<Order[]>([])
   const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleDrop = useCallback(async (files: File[]) => {
@@ -58,6 +61,11 @@ const Home: NextPage = () => {
     )
 
     setPerformances({companyPerformances, brandPerformances})
+
+    const orderRepository = new OrderRepository(store)
+    const multiBrandOrders = orderRepository.listMultiBrand()
+
+    setMultiBrandOrders(multiBrandOrders)
   }, [])
 
   return (
@@ -75,7 +83,9 @@ const Home: NextPage = () => {
         ) : (
           <TemplateSummaryView
             companyPerformances={performances.companyPerformances}
-            brandPerformances={performances.brandPerformances}/>
+            brandPerformances={performances.brandPerformances}
+            multiBrandOrders={multiBrandOrders}
+          />
         )
       }
     </div>

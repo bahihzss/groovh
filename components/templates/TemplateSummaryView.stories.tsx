@@ -1,6 +1,7 @@
 import {TemplateSummaryView, TemplateSummaryViewProps} from './TemplateSummaryView'
 import {Meta, Story} from '@storybook/react'
-import {performances} from '../../mocks/performances'
+import {brandPerformances, companyPerformances} from '../../mocks/performances'
+import {multiBrandOrders} from '../../mocks/orders'
 
 const meta: Meta<TemplateSummaryViewProps> = {
   component: TemplateSummaryView,
@@ -9,8 +10,9 @@ const meta: Meta<TemplateSummaryViewProps> = {
 export default meta
 
 const Template: Story<TemplateSummaryViewProps> = () => <TemplateSummaryView
-  companyPerformances={performances.companyPerformances}
-  brandPerformances={performances.brandPerformances}
+  companyPerformances={companyPerformances}
+  brandPerformances={brandPerformances}
+  multiBrandOrders={multiBrandOrders}
 />
 
 export const Default = Template.bind({})
