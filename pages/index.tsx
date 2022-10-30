@@ -13,6 +13,7 @@ import {BrandPerformanceDto, CalcBrandPerformanceUseCase} from '../use-case/calc
 import {CalcCompanyPerformancesUseCase, CompanyPerformanceDto} from '../use-case/calc-company-performances-use-case'
 import {Order} from '../domain/entities/order'
 import {OrderRepository} from '../infrastructure/repositories/order-repository'
+import {Loading} from '../components/atoms/Loading'
 
 interface Performances {
   brandPerformances: BrandPerformanceDto[],
@@ -23,49 +24,55 @@ const Home: NextPage = () => {
   const [performances, setPerformances] = useState<null | Performances>(null)
   const [multiBrandOrders, setMultiBrandOrders] = useState<Order[]>([])
   const [errorMessages, setErrorMessages] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const {store, addFromCsv} = useStore()
 
   const handleDrop = useCallback(async (files: File[]) => {
+    setIsLoading(true)
     const _errorMessages: string[] = []
     for (const file of files) {
       try {
         await addFromCsv(file)
       } catch (e) {
         if (e instanceof Error) _errorMessages.push(e.message)
+        console.error(e)
       }
     }
     setErrorMessages(_errorMessages)
 
-    const companyRepository = new CompanyRepository(store)
-    const brandRepository = new BrandRepository(store)
-    const receiptRepository = new ReceiptRepository(store)
-    const billingRepository = new BillingRepository(store)
-    const adPerformanceRepository = new AdPerformanceRepository(store)
+    if (_errorMessages.length === 0) {
+      const companyRepository = new CompanyRepository(store)
+      const brandRepository = new BrandRepository(store)
+      const receiptRepository = new ReceiptRepository(store)
+      const billingRepository = new BillingRepository(store)
+      const adPerformanceRepository = new AdPerformanceRepository(store)
 
-    const calcBrandPerformanceUseCase = new CalcBrandPerformanceUseCase(
-      companyRepository,
-      receiptRepository,
-      billingRepository,
-      adPerformanceRepository,
-    )
-    const brands = brandRepository.list()
-    const brandPerformances = brands.map((brand) =>
-      calcBrandPerformanceUseCase.exec(brand),
-    )
+      const calcBrandPerformanceUseCase = new CalcBrandPerformanceUseCase(
+        companyRepository,
+        receiptRepository,
+        billingRepository,
+        adPerformanceRepository,
+      )
+      const brands = brandRepository.list()
+      const brandPerformances = brands.map((brand) =>
+        calcBrandPerformanceUseCase.exec(brand),
+      )
 
-    const calcCompanyPerformanceUseCase = new CalcCompanyPerformancesUseCase(brandRepository)
-    const companies = companyRepository.list()
-    const companyPerformances: CompanyPerformanceDto[] = companies.map((brand) =>
-      calcCompanyPerformanceUseCase.execute(brand, brandPerformances),
-    )
+      const calcCompanyPerformanceUseCase = new CalcCompanyPerformancesUseCase(brandRepository)
+      const companies = companyRepository.list()
+      const companyPerformances: CompanyPerformanceDto[] = companies.map((brand) =>
+        calcCompanyPerformanceUseCase.execute(brand, brandPerformances),
+      )
 
-    setPerformances({companyPerformances, brandPerformances})
+      setPerformances({companyPerformances, brandPerformances})
 
-    const orderRepository = new OrderRepository(store)
-    const multiBrandOrders = orderRepository.listMultiBrand()
+      const orderRepository = new OrderRepository(store)
+      const multiBrandOrders = orderRepository.listMultiBrand()
 
-    setMultiBrandOrders(multiBrandOrders)
+      setMultiBrandOrders(multiBrandOrders)
+    }
+    setIsLoading(false)
   }, [])
 
   return (
@@ -87,6 +94,11 @@ const Home: NextPage = () => {
             multiBrandOrders={multiBrandOrders}
           />
         )
+      }
+      {
+        isLoading && <div className="fixed inset-0 bg-black bg-opacity-40 grid place-content-center">
+          <Loading/>
+        </div>
       }
     </div>
   )

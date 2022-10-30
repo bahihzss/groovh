@@ -1,3 +1,5 @@
+import {ShopType} from '../../hooks/source-type'
+
 export class AdPerformance {
   constructor(
     readonly productId: string,
@@ -5,7 +7,7 @@ export class AdPerformance {
   ) {
   }
 
-  static fromSourceRow(row: string[]) {
+  static fromSourceRow(shopType: ShopType, row: string[]) {
     const [
       _store,
       _category,

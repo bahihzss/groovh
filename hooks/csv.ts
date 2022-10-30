@@ -21,6 +21,10 @@ export class FailedToDetectEncodingError extends Error {
 
 type ParseData = string[]
 
+interface ParseOptions {
+  headerOffset: number
+}
+
 interface ParseResult {
   fileName: string
   header: ParseData
@@ -32,7 +36,9 @@ export const csv2array = (file: File) => {
     throw new NonCsvError(file)
   }
 
-  const parse = () => new Promise<ParseResult>(async (resolve) => {
+  const filename = file.name
+
+  const parse = (parseOptions: ParseOptions) => new Promise<ParseResult>(async (resolve) => {
     const codes = new Uint8Array(await file.arrayBuffer())
     const encoding = Encoding.detect(codes)
 
@@ -48,7 +54,7 @@ export const csv2array = (file: File) => {
 
     Papa.parse<ParseData>(unicodeString, {
       complete: function (results) {
-        const [header, ...data] = results.data
+        const [header, ...data] = results.data.slice(parseOptions.headerOffset)
         const filteredData = data.filter(row => Array.isArray(row) && header.length === row.length)
 
         resolve({
@@ -60,5 +66,5 @@ export const csv2array = (file: File) => {
     })
   })
 
-  return {parse}
+  return {filename, parse}
 }
