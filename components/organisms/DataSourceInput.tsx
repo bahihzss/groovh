@@ -3,13 +3,13 @@ import {FileInput} from '../atoms/FileInput'
 import {Alert} from '../atoms/Alert'
 import styles from './DataSourceInput.module.css'
 import {useStore} from '../../hooks/store'
-import {BrandRepository} from '../../domain/repositories/brand-repository'
+import {BrandRepository} from '../../infrastructure/repositories/brand-repository'
 import {BrandPerformanceDto, CalcBrandPerformanceUseCase} from '../../use-case/calc-brand-performance-use-case'
-import {CompanyRepository} from '../../domain/repositories/company-repository'
+import {CompanyRepository} from '../../infrastructure/repositories/company-repository'
 import {CalcCompanyPerformancesUseCase, CompanyPerformanceDto} from '../../use-case/calc-company-performances-use-case'
-import {ReceiptRepository} from '../../domain/repositories/receipt-repository'
-import {BillingRepository} from '../../domain/repositories/billing-repository'
-import {AdPerformanceRepository} from '../../domain/repositories/ad-performance-repository'
+import {ReceiptRepository} from '../../infrastructure/repositories/receipt-repository'
+import {BillingRepository} from '../../infrastructure/repositories/billing-repository'
+import {AdPerformanceRepository} from '../../infrastructure/repositories/ad-performance-repository'
 
 export interface OnDropPayload {
   companyPerformances: CompanyPerformanceDto[]
@@ -48,10 +48,14 @@ export const DataSourceInput: React.FC<DataSourceInputProps> = ({onDrop}) => {
       billingRepository,
       adPerformanceRepository,
     )
-    const brandPerformances = new BrandRepository(store).list().map((brand) => calcBrandPerformanceUseCase.exec(brand))
+    const brands = brandRepository.list()
+    const brandPerformances = brands.map((brand) =>
+      calcBrandPerformanceUseCase.exec(brand),
+    )
 
     const calcCompanyPerformanceUseCase = new CalcCompanyPerformancesUseCase(brandRepository)
-    const companyPerformances: CompanyPerformanceDto[] = new CompanyRepository(store).list().map((brand) =>
+    const companies = companyRepository.list()
+    const companyPerformances: CompanyPerformanceDto[] = companies.map((brand) =>
       calcCompanyPerformanceUseCase.execute(brand, brandPerformances),
     )
 

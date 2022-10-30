@@ -1,7 +1,7 @@
-import {BrandRepository} from '../domain/repositories/brand-repository'
+import {BrandRepository} from '../infrastructure/repositories/brand-repository'
 import {BrandPerformanceDto} from './calc-brand-performance-use-case'
 import {Company} from '../domain/entities/company'
-import {sum} from '../utils/aggregation'
+import {sum} from '../utils/collection'
 
 export interface CompanyPerformanceDto {
   company: Company

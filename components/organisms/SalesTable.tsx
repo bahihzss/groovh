@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './SalesTable.module.css'
 import {BrandPerformanceDto} from '../../use-case/calc-brand-performance-use-case'
-import {sum} from '../../utils/aggregation'
+import {sum} from '../../utils/collection'
 
 
 export interface SalesTableProps {

@@ -1,5 +1,5 @@
 import {Store} from '../../hooks/store'
-import {Company} from '../entities/company'
+import {Company} from '../../domain/entities/company'
 
 export class CompanyRepository {
   constructor(private store: Store) {

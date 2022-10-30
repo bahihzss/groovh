@@ -1,6 +1,6 @@
 import {Store} from '../../hooks/store'
 import {OrderRepository} from './order-repository'
-import {Billing} from '../entities/billing'
+import {Billing} from '../../domain/entities/billing'
 
 export class BillingRepository {
 
@@ -15,8 +15,8 @@ export class BillingRepository {
     const orders = this.orderRepository.listByBrandId(brandId)
 
     let billings: Billing[] = []
-    for (const orderId of [...new Set(orders.map(({id}) => id))]) {
-      billings = [...billings, ...this.listByOrderId(orderId)]
+    for (const order of orders) {
+      billings = [...billings, ...this.listByOrderId(order.id)]
     }
 
     if (brandId === 'others') {

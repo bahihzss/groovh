@@ -1,7 +1,7 @@
 export class Order {
   constructor(
     readonly id: string,
-    readonly productId: string,
+    readonly productIds: string[],
   ) {
   }
 
@@ -15,7 +15,7 @@ export class Order {
 
     return new Order(
       orderId,
-      productCode,
+      [productCode],
     )
   }
 }

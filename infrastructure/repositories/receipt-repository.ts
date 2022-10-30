@@ -1,6 +1,6 @@
 import {Store} from '../../hooks/store'
 import {OrderRepository} from './order-repository'
-import {Receipt} from '../entities/receipt'
+import {Receipt} from '../../domain/entities/receipt'
 
 export class ReceiptRepository {
   constructor(private store: Store, private orderRepository = new OrderRepository(store)) {
@@ -14,8 +14,8 @@ export class ReceiptRepository {
     const orders = this.orderRepository.listByBrandId(brandId)
 
     let receipts: Receipt[] = []
-    for (const orderId of [...new Set(orders.map(({id}) => id))]) {
-      receipts = [...receipts, ...this.listByOrderId(orderId)]
+    for (const order of orders) {
+      receipts = [...receipts, ...this.listByOrderId(order.id)]
     }
 
     if (brandId === 'others') {

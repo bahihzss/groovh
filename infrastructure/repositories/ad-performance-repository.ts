@@ -1,6 +1,6 @@
 import {Store} from '../../hooks/store'
 import {ProductRepository} from './product-repository'
-import {AdPerformance} from '../entities/ad-performance'
+import {AdPerformance} from '../../domain/entities/ad-performance'
 
 export class AdPerformanceRepository {
   constructor(private store: Store, private productRepository = new ProductRepository(store)) {

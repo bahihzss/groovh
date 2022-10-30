@@ -1,10 +1,10 @@
 import {Brand} from '../domain/entities/brand'
 import {Company} from '../domain/entities/company'
-import {AdPerformanceRepository} from '../domain/repositories/ad-performance-repository'
-import {BillingRepository} from '../domain/repositories/billing-repository'
-import {ReceiptRepository} from '../domain/repositories/receipt-repository'
-import {CompanyRepository} from '../domain/repositories/company-repository'
-import {sum} from '../utils/aggregation'
+import {AdPerformanceRepository} from '../infrastructure/repositories/ad-performance-repository'
+import {BillingRepository} from '../infrastructure/repositories/billing-repository'
+import {ReceiptRepository} from '../infrastructure/repositories/receipt-repository'
+import {CompanyRepository} from '../infrastructure/repositories/company-repository'
+import {sum} from '../utils/collection'
 
 export interface BrandPerformanceDto {
   brand: Brand
