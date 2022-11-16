@@ -44,7 +44,7 @@ export class OrderRepository {
   }
 
   listNonProduct(): Order[] {
-    return this.orders.filter((order) => !this.productRepository.exists(order.productIds[0]))
+    return this.orders.filter((order) => order.productIds.every((productId) => !this.productRepository.exists(productId)))
   }
 
   listMultiBrand(): Order[] {
