@@ -14,6 +14,7 @@ import {CalcCompanyPerformancesUseCase, CompanyPerformanceDto} from '../use-case
 import {Order} from '../domain/entities/order'
 import {OrderRepository} from '../infrastructure/repositories/order-repository'
 import {Loading} from '../components/atoms/Loading'
+import {sum} from '../utils/collection'
 
 interface Performances {
   brandPerformances: BrandPerformanceDto[],
@@ -47,12 +48,19 @@ const Home: NextPage = () => {
       const receiptRepository = new ReceiptRepository(store)
       const billingRepository = new BillingRepository(store)
       const adPerformanceRepository = new AdPerformanceRepository(store)
+      const orderRepository = new OrderRepository(store)
+
+      const totalReceipt = sum(store.RECEIPT, 'price')
+      const totalBilling = sum(store.BILLING, 'price')
+
+      console.log(totalReceipt, totalBilling, totalReceipt - totalBilling)
 
       const calcBrandPerformanceUseCase = new CalcBrandPerformanceUseCase(
         companyRepository,
         receiptRepository,
         billingRepository,
         adPerformanceRepository,
+        orderRepository,
       )
       const brands = brandRepository.list()
       const brandPerformances = brands.map((brand) =>
@@ -67,7 +75,6 @@ const Home: NextPage = () => {
 
       setPerformances({companyPerformances, brandPerformances})
 
-      const orderRepository = new OrderRepository(store)
       const multiBrandOrders = orderRepository.listMultiBrand()
 
       setMultiBrandOrders(multiBrandOrders)
@@ -96,9 +103,11 @@ const Home: NextPage = () => {
         )
       }
       {
-        isLoading && <div className="fixed inset-0 bg-black bg-opacity-40 grid place-content-center">
-          <Loading/>
-        </div>
+        isLoading && (
+          <div className="fixed inset-0 bg-black bg-opacity-40 grid place-content-center">
+            <Loading/>
+          </div>
+        )
       }
     </div>
   )

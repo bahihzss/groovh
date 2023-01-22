@@ -5,7 +5,7 @@ import {GGlowTableForCompany} from '../organisms/GGlowTableForCompany'
 import {CompanyPerformanceDto} from '../../use-case/calc-company-performances-use-case'
 import {BrandPerformanceDto} from '../../use-case/calc-brand-performance-use-case'
 import {Order} from '../../domain/entities/order'
-import {MultiBrandOrderTable} from '../organisms/MultiBrandOrderTable'
+import {OrderTable} from '../organisms/OrderTable'
 
 export interface TemplateSummaryViewProps {
   companyPerformances: CompanyPerformanceDto[],
@@ -31,7 +31,7 @@ export const TemplateSummaryView: React.FC<TemplateSummaryViewProps> = (
           multiBrandOrders.length && (
             <section>
               <h2 className="font-bold text-3xl pb-3">複数のブランドを含む注文</h2>
-              <MultiBrandOrderTable multiBrandOrders={multiBrandOrders}/>
+              <OrderTable orders={multiBrandOrders}/>
             </section>
           )
         }

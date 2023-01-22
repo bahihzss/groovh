@@ -25,7 +25,7 @@ export class CalcCompanyPerformancesUseCase {
 
     const billing = sum(brandPerformancesForCompany, 'billing')
     const receipt = sum(brandPerformancesForCompany, 'receipt')
-    const adCost = sum(brandPerformancesForCompany, 'adCost')
+    const adCost = sum(brandPerformancesForCompany, 'adCost') + sum(brandPerformancesForCompany, 'prOptionCost')
 
     return {
       company,

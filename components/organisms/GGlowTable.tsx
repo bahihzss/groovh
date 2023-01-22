@@ -16,23 +16,24 @@ interface GGlowHandleDto {
   receiptForBrand: number
   receiptForGGlow: number
   adCost: number
+  prOptionCost: number
 }
 
 export const GGlowTable: React.FC<GGlowTableProps> = ({brandPerformances}) => {
   const gGlowHandles: GGlowHandleDto[] = brandPerformances.map((performance) => {
-    const {billingHandleRate, receiptHandleRate} = performance.company
-    const billingFromBrand = performance.billing * billingHandleRate
-    const receiptForBrand = performance.receipt * receiptHandleRate
+    const billingHandleRate = performance.company.billingHandleRate - 1
+    const receiptHandleRate = 1 - performance.company.receiptHandleRate
 
     return {
       brandName: performance.brand.name,
-      billingHandleRate: billingHandleRate - 1,
-      billingFromBrand,
-      billingForGGlow: billingFromBrand - performance.billing,
-      receiptHandleRate: 1 - receiptHandleRate,
-      receiptForBrand,
-      receiptForGGlow: performance.receipt - receiptForBrand,
+      billingHandleRate,
+      billingFromBrand: performance.billing,
+      billingForGGlow: performance.billing - performance.gGlowBilling,
+      receiptHandleRate,
+      receiptForBrand: performance.receipt,
+      receiptForGGlow: performance.gGlowReceipt - performance.receipt,
       adCost: performance.adCost,
+      prOptionCost: performance.prOptionCost,
     }
   })
 
@@ -67,6 +68,10 @@ export const GGlowTable: React.FC<GGlowTableProps> = ({brandPerformances}) => {
     },
     adCost: {
       label: '広告費',
+      format: formatYen,
+    },
+    prOptionCost: {
+      label: '広告費（PRオプション）',
       format: formatYen,
     },
   })

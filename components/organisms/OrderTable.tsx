@@ -3,12 +3,12 @@ import {formatStraight, useMatrix} from '../../hooks/matrix'
 import {Order} from '../../domain/entities/order'
 import Spreadsheet from 'react-spreadsheet'
 
-export interface MultiBrandOrderTableProps {
-  multiBrandOrders: Order[]
+export interface OrderTableProps {
+  orders: Order[]
 }
 
-export const MultiBrandOrderTable: React.FC<MultiBrandOrderTableProps> = ({multiBrandOrders}) => {
-  const matrix = useMatrix(multiBrandOrders, {
+export const OrderTable: React.FC<OrderTableProps> = ({orders}) => {
+  const matrix = useMatrix(orders, {
     id: {
       label: 'オーダーID',
       format: formatStraight,

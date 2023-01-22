@@ -5,18 +5,22 @@ import {BillingRepository} from '../infrastructure/repositories/billing-reposito
 import {ReceiptRepository} from '../infrastructure/repositories/receipt-repository'
 import {CompanyRepository} from '../infrastructure/repositories/company-repository'
 import {sum} from '../utils/collection'
+import {Order} from '../domain/entities/order'
+import {OrderRepository} from '../infrastructure/repositories/order-repository'
 
 export interface BrandPerformanceDto {
   brand: Brand
   company: Company
   gGlowReceipt: number
   adCost: number
+  prOptionCost: number
   receipt: number
   receiptHandle: number
   gGlowBilling: number
   billing: number
   billingHandle: number
   profit: number
+  orders: Order[]
 }
 
 export class CalcBrandPerformanceUseCase {
@@ -25,6 +29,7 @@ export class CalcBrandPerformanceUseCase {
     private receiptRepository: ReceiptRepository,
     private billingRepository: BillingRepository,
     private adPerformanceRepository: AdPerformanceRepository,
+    private orderRepository: OrderRepository,
   ) {
   }
 
@@ -37,17 +42,21 @@ export class CalcBrandPerformanceUseCase {
 
     const adCost = sum(adPerformances, 'price')
     const gGlowReceipt = sum(receipts, 'price')
-    const receipt = Math.floor(gGlowReceipt * company.receiptHandleRate)
+    const receipt = Math.round(gGlowReceipt * company.receiptHandleRate)
     const receiptHandle = gGlowReceipt - receipt
     const gGlowBilling = sum(billings, 'price')
-    const billing = Math.floor(gGlowBilling * company.billingHandleRate)
+    const billing = Math.round(gGlowBilling * company.billingHandleRate)
     const billingHandle = billing - gGlowBilling
     const profit = receipt - billing
+    const prOptionCost = Math.round(gGlowReceipt * (1 - company.receiptHandleRate))
+
+    const orders = this.orderRepository.listByBrandId(brand.id)
 
     return {
       brand,
       company,
       adCost,
+      prOptionCost,
       gGlowReceipt,
       receipt,
       receiptHandle,
@@ -55,6 +64,7 @@ export class CalcBrandPerformanceUseCase {
       billing,
       billingHandle,
       profit,
+      orders,
     }
   }
 }
