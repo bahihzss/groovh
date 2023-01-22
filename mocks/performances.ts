@@ -39,6 +39,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 0,
+    'prOptionCost': 0,
     'gGlowReceipt': 0,
     'receipt': 0,
     'receiptHandle': 0,
@@ -46,6 +47,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 0,
     'billingHandle': 0,
     'profit': 0,
+    'orders': [],
   },
   {
     'brand': {
@@ -60,6 +62,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.95,
     },
     'adCost': 27391,
+    'prOptionCost': 17713,
     'gGlowReceipt': 7085485,
     'receipt': 6731210,
     'receiptHandle': 354275,
@@ -67,6 +70,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 1055117,
     'billingHandle': 50243,
     'profit': 5676093,
+    'orders': [],
   },
   {
     'brand': {
@@ -81,6 +85,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 66197,
+    'prOptionCost': 47438,
     'gGlowReceipt': 1581272,
     'receipt': 1533833,
     'receiptHandle': 47439,
@@ -88,6 +93,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 272141,
     'billingHandle': 7926,
     'profit': 1261692,
+    'orders': [],
   },
   {
     'brand': {
@@ -102,6 +108,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 265,
+    'prOptionCost': 13904,
     'gGlowReceipt': 463480,
     'receipt': 449575,
     'receiptHandle': 13905,
@@ -109,6 +116,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 70174,
     'billingHandle': 2043,
     'profit': 379401,
+    'orders': [],
   },
   {
     'brand': {
@@ -123,6 +131,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 0,
+    'prOptionCost': 1539,
     'gGlowReceipt': 38480,
     'receipt': 37325,
     'receiptHandle': 1155,
@@ -130,6 +139,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 5419,
     'billingHandle': 157,
     'profit': 31906,
+    'orders': [],
   },
   {
     'brand': {
@@ -144,6 +154,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 54294,
+    'prOptionCost': 94605,
     'gGlowReceipt': 3153504,
     'receipt': 3058898,
     'receiptHandle': 94606,
@@ -151,6 +162,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 596461,
     'billingHandle': 17372,
     'profit': 2462437,
+    'orders': [],
   },
   {
     'brand': {
@@ -165,6 +177,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 0,
+    'prOptionCost': 0,
     'gGlowReceipt': 0,
     'receipt': 0,
     'receiptHandle': 0,
@@ -172,6 +185,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 0,
     'billingHandle': 0,
     'profit': 0,
+    'orders': [],
   },
   {
     'brand': {
@@ -186,6 +200,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 0,
+    'prOptionCost': 742,
     'gGlowReceipt': 24750,
     'receipt': 24007,
     'receiptHandle': 743,
@@ -193,6 +208,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 4855,
     'billingHandle': 141,
     'profit': 19152,
+    'orders': [],
   },
   {
     'brand': {
@@ -207,6 +223,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 0,
+    'prOptionCost': 0,
     'gGlowReceipt': 0,
     'receipt': 0,
     'receiptHandle': 0,
@@ -214,6 +231,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 0,
     'billingHandle': 0,
     'profit': 0,
+    'orders': [],
   },
   {
     'brand': {
@@ -228,6 +246,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
       'receiptHandleRate': 0.97,
     },
     'adCost': 0,
+    'prOptionCost': 0,
     'gGlowReceipt': 0,
     'receipt': 0,
     'receiptHandle': 0,
@@ -235,6 +254,7 @@ export const brandPerformances: BrandPerformanceDto[] = [
     'billing': 0,
     'billingHandle': 0,
     'profit': 0,
+    'orders': [],
   },
 ]
 
